@@ -1,9 +1,12 @@
 CONFIG add allow.sysvipc=1
 CONFIG allow.raw_sockets=1
+
 RESTART
 
+ARG psql-v=16
+
 # install required packages
-PKG postgresql16-server
+PKG postgresql${psql-v}-server
 
 # copy files
 # CP usr /
