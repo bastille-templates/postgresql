@@ -1,5 +1,5 @@
 CONFIG add allow.sysvipc=1
-CONFIG allow.raw_sockets=1
+CONFIG add allow.raw_sockets=1
 
 RESTART
 
