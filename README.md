@@ -3,7 +3,7 @@
 ```sh
 bastille create pgsql 14.1-RELEASE YourIP-Bastille
 bastille bootstrap https://github.com/bastille-templates/postgresql
-bastille template postgresql bastille-templates/postgresql
+bastille template pgsql bastille-templates/postgresql
 ```
 
 ## License
