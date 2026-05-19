@@ -3,39 +3,45 @@ CONFIG set allow.sysvipc 1
 RESTART
 
 ARG  PG_VERSION="16"
-ARG  PG_DB="appdb"
-ARG  PG_USER="appuser"
-ARG  PG_PASS="changeme"
-ARG  PG_PORT="5432"
-ARG  MEM_LIMIT="1G"
+#ARG  PG_DB="testdb"
+#ARG  PG_USER="test"
+#ARG  PG_PASS="changeme"
+#ARG  PG_PORT="5432"
+#ARG  MEM_LIMIT="1G"
+
+# install required templates
+INCLUDE https://github.com/bastille-templates/openssl
 
 # install required packages
-PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client
+#PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client
+
+# Create POSTGRESQL DATADIR
+CMD mkdir -p /var/db/postgres/data${PG_VERSION}
 
 # enable and start postgre
-SYSRC postgresql_enable=YES
-SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
+#SYSRC postgresql_enable=YES
+#SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 
-SERVICE postgresql initdb
+#SERVICE postgresql initdb
 
 # copy files
 #CP var / /var/db/postgres/data${PG_VERSION}
 
-SERVICE postgresql start
+#SERVICE postgresql start
 
 # CREATE DATABASE
-CMD psql -U postgres -c "CREATE USER ${PG_USER} WITH PASSWORD 'changeme';"
-CMD psql -U postgres -c "CREATE DATABASE ${PG_DB} OWNER ${PG_USER};"
-CMD psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE ${PG_DB} TO ${PG_USER};"
+#CMD psql -U postgres -c "CREATE USER ${PG_USER} WITH PASSWORD 'changeme';"
+#CMD psql -U postgres -c "CREATE DATABASE ${PG_DB} OWNER ${PG_USER};"
+#CMD psql -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE ${PG_DB} TO ${PG_USER};"
 
-CMD sh -c 'echo "local   all   all   trust" >> /var/db/postgres/data${PG_VERSION}/pg_hba.conf'
-CMD sh -c 'echo "host    all   all   127.0.0.1/32   md5" >> /var/db/postgres/data${PG_VERSION}/pg_hba.conf'
+#CMD sh -c 'echo "local   all   all   trust" >> /var/db/postgres/data${PG_VERSION}/pg_hba.conf'
+#CMD sh -c 'echo "host    all   all   127.0.0.1/32   md5" >> /var/db/postgres/data${PG_VERSION}/pg_hba.conf'
 
-CMD service postgresql reload
+#CMD service postgresql reload
 
 # --- Limit resource ---
-LIMITS memoryuse ${MEM_LIMIT}
+#LIMITS memoryuse ${MEM_LIMIT}
 
-RDR tcp ${PG_PORT} 5432
+#RDR tcp ${PG_PORT} 5432
 
 TAGS database postgresql pg${PG_VERSION}
