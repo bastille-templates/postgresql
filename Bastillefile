@@ -21,9 +21,6 @@ RESTART
 # install required packages
 PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client
 
-# Create POSTGRESQL DATADIR
-CMD mkdir -p /var/db/postgres/data${PG_VERSION}
-
 # enable and start postgre
 SYSRC postgresql_enable=YES
 SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
@@ -31,12 +28,15 @@ SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 SERVICE postgresql initdb
 
 # copy files
-CP var / /var/db/postgres/data${PG_VERSION}
+CP root /
+CP var /var/db/postgres/data${PG_VERSION}
 
 # 
-CMD chown -R postgres:postgres /var/db/postgres/data${PG_VERSION}
+RENDER /root/bootstrap.sh
 RENDER /var/db/postgres/data${PG_VERSION}/postgresql.conf
 RENDER /var/db/postgres/data${PG_VERSION}/pg_hba.conf
+
+CMD sh bootstrap.sh && rm bootstrap.sh
 
 SERVICE postgresql start
 
