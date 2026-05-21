@@ -1,38 +1,41 @@
-CONFIG set allow.sysvipc 1
-
-RESTART
+# --- Variable ---
+ARG CPULIMIT="0,1"
+ARG MEMLIMIT="512M"
+ARG DISKLIMIT="2G"
 
 ARG  PG_VERSION="16"
-ARG  PG_DB="testdb"
-ARG  PG_USER="test"
-ARG  PG_PASS="changeme"
 ARG  PG_PORT="5432"
-ARG  MEM_LIMIT="1G"
+
+# --- Limit resource ---
+LIMITS cpu ${CPULIMIT}
+LIMITS memoryuse ${MEMLIMIT}
+LIMITS datasize 20G ${DISKLIMIT}
+
+# --- Config ---
+CONFIG set allow.sysvipc 1
+RESTART
 
 # install required templates
-INCLUDE https://github.com/bastille-templates/openssl
+#INCLUDE https://github.com/bastille-templates/exmaples
 
 # install required packages
-#PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client
+PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client
 
 # Create POSTGRESQL DATADIR
 CMD mkdir -p /var/db/postgres/data${PG_VERSION}
 
 # enable and start postgre
-#SYSRC postgresql_enable=YES
-#SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
+SYSRC postgresql_enable=YES
+SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 
-#SERVICE postgresql initdb
+SERVICE postgresql initdb
 
 # copy files
-#CP var / /var/db/postgres/data${PG_VERSION}
+CP var / /var/db/postgres/data${PG_VERSION}
 
-#SERVICE postgresql start
+RENDER /var/db/postgres/data${PG_VERSION}/postgresql.conf
 
-#CMD service postgresql reload
-
-# --- Limit resource ---
-#LIMITS memoryuse ${MEM_LIMIT}
+SERVICE postgresql start
 
 #RDR tcp ${PG_PORT} 5432
 
