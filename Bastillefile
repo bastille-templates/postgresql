@@ -25,9 +25,9 @@ PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client
 SYSRC postgresql_enable=YES
 SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 
+SERVICE postgresql initdb
 
 # copy files
-CP root /
 CP configs/ /var/db/postgres/data${PG_VERSION}/
 
 # 
