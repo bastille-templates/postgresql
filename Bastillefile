@@ -27,7 +27,7 @@ SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 
 
 # copy files
-CP root/ /
+CP root/ /root/
 CP configs/ /var/db/postgres/data${PG_VERSION}/
 
 # 
