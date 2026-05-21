@@ -27,8 +27,8 @@ SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 
 
 # copy files
-CP root /root
-CP var /var/db/postgres/data${PG_VERSION}
+CP root/* /root/
+CP configs/* /var/db/postgres/data${PG_VERSION}/
 
 # 
 RENDER /root/initdb.sh
@@ -37,7 +37,7 @@ RENDER /var/db/postgres/data${PG_VERSION}/pg_hba.conf
 
 CMD sh initdb.sh && chown -R postgres:postgres /var/db/postgres/data${PG_VERSION}
 
-SERVICE postgresql start
+SERVICE postgresql restart
 
 #RDR tcp ${PG_PORT} 5432
 
