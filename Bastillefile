@@ -28,7 +28,6 @@ SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 SERVICE postgresql initdb
 
 # copy files
-CP root /
 CP var /var/db/postgres/data${PG_VERSION}
 
 # 
@@ -36,7 +35,7 @@ RENDER /root/bootstrap.sh
 RENDER /var/db/postgres/data${PG_VERSION}/postgresql.conf
 RENDER /var/db/postgres/data${PG_VERSION}/pg_hba.conf
 
-CMD sh bootstrap.sh && rm bootstrap.sh
+CMD chown -R postgres:postgres /var/db/postgres/data${PG_VERSION}
 
 SERVICE postgresql start
 
