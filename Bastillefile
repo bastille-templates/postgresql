@@ -36,6 +36,7 @@ CP var / /var/db/postgres/data${PG_VERSION}
 # 
 CMD chown -R postgres:postgres /var/db/postgres/data${PG_VERSION}
 RENDER /var/db/postgres/data${PG_VERSION}/postgresql.conf
+RENDER /var/db/postgres/data${PG_VERSION}/pg_hba.conf
 
 SERVICE postgresql start
 
