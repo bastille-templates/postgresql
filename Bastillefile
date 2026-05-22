@@ -1,42 +1,39 @@
 # --- Variable ---
+
 ARG CPULIMIT="0,1"
 ARG MEMLIMIT="2048M"
 ARG DISKLIMIT="32G"
 
-ARG  PG_VERSION="16"
-ARG  PG_PORT="5432"
+ARG PG_VERSION="16"
+ARG PG_PORT="5432"
 
 # --- Limit resource ---
+
 LIMITS cpu ${CPULIMIT}
 LIMITS memoryuse ${MEMLIMIT}
 LIMITS datasize 20G ${DISKLIMIT}
 
 # --- Config ---
+
 CONFIG set allow.sysvipc 1
 RESTART
 
 # install required templates
+
 #INCLUDE https://github.com/bastille-templates/exmaples
 
 # install required packages
+
 PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client
 
 # enable and start postgre
+
 SYSRC postgresql_enable=YES
 SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
 
 SERVICE postgresql initdb
 
-# copy files
-CP configs/ /var/db/postgres/data${PG_VERSION}/
-
-# 
-RENDER /var/db/postgres/data${PG_VERSION}/postgresql.conf
-RENDER /var/db/postgres/data${PG_VERSION}/pg_hba.conf
-
-CMD chown -R postgres:postgres /var/db/postgres/data${PG_VERSION}
-
-SERVICE postgresql restart
+SERVICE postgresql start
 
 #RDR tcp ${PG_PORT} 5432
 
