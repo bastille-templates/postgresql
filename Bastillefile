@@ -31,11 +31,10 @@ SERVICE postgresql initdb
 CP configs/ /var/db/postgres/data${PG_VERSION}/
 
 # 
-RENDER /root/initdb.sh
 RENDER /var/db/postgres/data${PG_VERSION}/postgresql.conf
 RENDER /var/db/postgres/data${PG_VERSION}/pg_hba.conf
 
-CMD sh initdb.sh && chown -R postgres:postgres /var/db/postgres/data${PG_VERSION}
+CMD chown -R postgres:postgres /var/db/postgres/data${PG_VERSION}
 
 SERVICE postgresql restart
 
