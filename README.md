@@ -7,7 +7,7 @@ bastille template pgsql bastille-templates/postgresql \
   --arg PG_VERSION=16 \
   --arg PG_PORT=5432 \
   --arg CPULIMIT=0,1 \
-  --arg MEMLIMIT=512M \
+  --arg MEMLIMIT=4096M \
   --arg DISKLIMIT=32G
 ```
 
