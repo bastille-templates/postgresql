@@ -24,7 +24,7 @@ RESTART
 
 # install required packages
 
-PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client postgresql{PG_VERSION}-contrib
+PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client postgresql${PG_VERSION}-contrib
 
 # enable and start postgre
 
