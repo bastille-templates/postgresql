@@ -32,4 +32,4 @@ SERVICE postgresql start
 
 #RDR tcp ${PG_PORT} 5432
 
-TAGS database postgresql pg${PG_VERSION}
+#TAGS database postgresql pg${PG_VERSION}
