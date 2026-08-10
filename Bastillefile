@@ -1,8 +1,8 @@
 # --- Variable ---
 
-ARG CPULIMIT="0,1"
-ARG MEMLIMIT="2048M"
-ARG DISKLIMIT="4G"
+ARG CPULIMIT="0,1,2"
+#ARG MEMLIMIT="2048M"
+#ARG DISKLIMIT="4G"
 
 ARG PG_VERSION="16"
 ARG PG_PORT="5432"
@@ -10,8 +10,8 @@ ARG PG_PORT="5432"
 # --- Limit resource ---
 
 LIMITS cpu ${CPULIMIT}
-LIMITS memoryuse ${MEMLIMIT}
-LIMITS datasize 20G ${DISKLIMIT}
+#LIMITS memoryuse ${MEMLIMIT}
+#LIMITS datasize 20G ${DISKLIMIT}
 
 # --- Config ---
 
@@ -20,21 +20,14 @@ CONFIG set sysvshm new
 CONFIG set sysvsem new
 RESTART
 
-# install required templates
-
-#INCLUDE https://github.com/bastille-templates/exmaples
-
 # install required packages
 
-PKG postgresql${PG_VERSION}-server postgresql${PG_VERSION}-client postgresql${PG_VERSION}-contrib
+PKG postgresql${PG_VERSION}-server
 
 # enable and start postgre
 
 SYSRC postgresql_enable=YES
-SYSRC postgresql_data="/var/db/postgres/data${PG_VERSION}"
-
 SERVICE postgresql initdb
-
 SERVICE postgresql start
 
 #RDR tcp ${PG_PORT} 5432
