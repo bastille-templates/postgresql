@@ -1,20 +1,7 @@
-# --- Variable ---
-
-ARG CPULIMIT="0,1,2"
-#ARG MEMLIMIT="2048M"
-#ARG DISKLIMIT="4G"
-
 ARG PG_VERSION="16"
 ARG PG_PORT="5432"
 
-# --- Limit resource ---
-
-LIMITS cpu ${CPULIMIT}
-#LIMITS memoryuse ${MEMLIMIT}
-#LIMITS datasize 20G ${DISKLIMIT}
-
 # --- Config ---
-
 CONFIG set allow.sysvipc 1
 CONFIG set sysvshm new
 CONFIG set sysvsem new
@@ -28,6 +15,9 @@ PKG postgresql${PG_VERSION}-server
 
 SYSRC postgresql_enable=YES
 SERVICE postgresql initdb
+
+CMD sed -i '' "s%#listen_addresses = 'localhost'%listen_addresses = '${JAIL_IP}'%g" /var/db/postgres/data${PG_VERSION}/postgresql.conf
+
 SERVICE postgresql start
 
 #RDR tcp ${PG_PORT} 5432
